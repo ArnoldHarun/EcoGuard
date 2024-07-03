@@ -1,5 +1,6 @@
 # EcoGuardian
 
+
 EcoGuardian is a comprehensive environmental protection application designed to promote sustainability, educate users, and enable eco-friendly practices. Our goal is to empower individuals and communities to take action in preserving our environment for future generations.
 
 ## Features
@@ -9,6 +10,8 @@ EcoGuardian is a comprehensive environmental protection application designed to 
 
 ### Community and Engagement
 - **Local Environmental Events**: Find information on local clean-ups, tree planting, and other environmental activities.
+
+![Our Environment]()
 
 
 ## Getting Started
