@@ -13,6 +13,8 @@ EcoGuardian is a comprehensive environmental protection application designed to 
 ### Community and Engagement
 - **Local Environmental Events**: Find information on local clean-ups, tree planting, and other environmental activities.
 
+### Application User Stories
+[Link to User Stories](https://docs.google.com/spreadsheets/d/1cVgTgZp_q4qycx1EeAeuK6157S5aiJBwltxDus9wq9M/edit?usp=sharing)
 ![Application User Stories](https://github.com/ArnoldHarun/EcoGuardian/blob/main/user%20stories.png)
 
 
