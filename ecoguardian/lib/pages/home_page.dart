@@ -169,6 +169,81 @@ class HomeTab extends StatelessWidget {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Emergency Contacts',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16.0),
+                _buildContactCard(
+                  'NEMA',
+                  'National Environment Management Authority',
+                  'Phone: +256 414 251064\nEmail: info@nema.go.ug',
+                ),
+                _buildContactCard(
+                  'NWSC',
+                  'National Water and Sewerage Corporation',
+                  'Phone: +256 414 315800\nEmail: info@nwsc.co.ug',
+                ),
+                _buildContactCard(
+                  'NFA',
+                  'National Forestry Authority',
+                  'Phone: +256 414 233167\nEmail: info@nfa.org.ug',
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const Text(
+                  'Environmental Awareness Activities',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16.0),
+                _buildAwarenessCard(
+                  title: 'Clean-Up Campaigns',
+                  description:
+                      'Organize and participate in local clean-up events to keep your environment clean.',
+                ),
+                _buildAwarenessCard(
+                  title: 'Tree Planting Initiatives',
+                  description:
+                      'Join tree planting events to contribute to reforestation efforts.',
+                ),
+                _buildAwarenessCard(
+                  title: 'Waste Management Programs',
+                  description:
+                      'Learn about proper waste segregation, recycling, and composting practices.',
+                ),
+                _buildAwarenessCard(
+                  title: 'Water Conservation',
+                  description:
+                      'Discover ways to reduce water usage and promote water conservation.',
+                ),
+                _buildAwarenessCard(
+                  title: 'Energy Conservation',
+                  description:
+                      'Get tips on reducing energy consumption and using renewable energy sources.',
+                ),
+                _buildAwarenessCard(
+                  title: 'Sustainable Living',
+                  description:
+                      'Adopt sustainable lifestyle choices and support eco-friendly products.',
+                ),
+                _buildAwarenessCard(
+                  title: 'Wildlife Conservation',
+                  description:
+                      'Learn how to protect local wildlife and their habitats.',
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -183,15 +258,27 @@ class HomeTab extends StatelessWidget {
       'assets/image5.jpg',
     ];
 
+    List<String> messages = [
+      'Join us in protecting our environment.',
+      'Small actions can make a big difference.',
+      'Plant a tree, save the future.',
+      'Reduce, Reuse, Recycle.',
+      'Together for a greener planet.',
+    ];
+
     return CarouselSlider(
       options: CarouselOptions(
         height: 200.0,
         enlargeCenterPage: true,
         autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 5),
+        autoPlayInterval: const Duration(seconds: 3),
         aspectRatio: 2.0,
       ),
-      items: images.map((image) {
+      items: images.asMap().entries.map((entry) {
+        int index = entry.key;
+        String image = entry.value;
+        String message = messages[index];
+
         return Builder(
           builder: (BuildContext context) {
             return Container(
@@ -200,12 +287,32 @@ class HomeTab extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
-                ),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.asset(
+                      image,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      color: Colors.black54,
+                      child: Text(
+                        message,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           },
@@ -249,111 +356,21 @@ class HomeTab extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 4.0),
+                    const SizedBox(height: 8.0),
                     Text(
                       description,
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                      ),
+                      style: const TextStyle(fontSize: 14.0),
                     ),
                   ],
                 ),
               ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.green,
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ReportIssueTab extends StatelessWidget {
-  const ReportIssueTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Report Environmental Issues',
-        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class LearnTab extends StatelessWidget {
-  const LearnTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Learn about Conservation',
-        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class NotificationsTab extends StatelessWidget {
-  const NotificationsTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Receive Notifications',
-        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class ProfileTab extends StatelessWidget {
-  const ProfileTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Manage Profile',
-        style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
-
-class EmergencyContactsTab extends StatelessWidget {
-  const EmergencyContactsTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Emergency Contacts',
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16.0),
-          _buildContactCard(
-            'NEMA',
-            'National Environment Management Authority',
-            'Phone: +256 414 251064\nEmail: info@nema.go.ug',
-          ),
-          _buildContactCard(
-            'NWSC',
-            'National Water and Sewerage Corporation',
-            'Phone: +256 414 315800\nEmail: info@nwsc.co.ug',
-          ),
-          _buildContactCard(
-            'NFA',
-            'National Forestry Authority',
-            'Phone: +256 414 233167\nEmail: info@nfa.org.ug',
-          ),
-        ],
       ),
     );
   }
@@ -377,14 +394,10 @@ class EmergencyContactsTab extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 4.0),
+            const SizedBox(height: 8.0),
             Text(
               subtitle,
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-              ),
+              style: const TextStyle(fontSize: 16.0),
             ),
             const SizedBox(height: 8.0),
             Text(
@@ -394,6 +407,94 @@ class EmergencyContactsTab extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildAwarenessCard({
+    required String title,
+    required String description,
+  }) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 4.0,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              description,
+              style: const TextStyle(fontSize: 14.0),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReportIssueTab extends StatelessWidget {
+  const ReportIssueTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Report Issue Page'),
+    );
+  }
+}
+
+class LearnTab extends StatelessWidget {
+  const LearnTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Learn Page'),
+    );
+  }
+}
+
+class NotificationsTab extends StatelessWidget {
+  const NotificationsTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Notifications Page'),
+    );
+  }
+}
+
+class ProfileTab extends StatelessWidget {
+  const ProfileTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Profile Page'),
+    );
+  }
+}
+
+class EmergencyContactsTab extends StatelessWidget {
+  const EmergencyContactsTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Emergency Contacts Page'),
     );
   }
 }
