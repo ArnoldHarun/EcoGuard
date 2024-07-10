@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class NotificationsPage extends StatelessWidget {
+  const NotificationsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Notifications'),
         backgroundColor: Colors.green,
       ),
       body: const Center(
-        child: Text('Profile Page'),
+        child: Text('Notifications Page'),
       ),
     );
   }
