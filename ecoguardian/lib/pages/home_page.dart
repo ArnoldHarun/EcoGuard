@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,122 +7,103 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'AquaWood',
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0.0, // Remove shadow
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              // Implement action
-            },
-          ),
-        ],
+        title: const Text('Home'),
       ),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildHeader(),
-            _buildCarouselSlider(),
-            _buildInfoSection(),
-            // Add other sections as needed
+            _buildFeatureCard(
+              context,
+              'Report an Issue',
+              'Report environmental issues to authorities',
+              Icons.report_problem_rounded,
+              '/report',
+              Colors.red,
+            ),
+            const SizedBox(height: 20.0),
+            _buildFeatureCard(
+              context,
+              'Learn About Conservation',
+              'Discover tips and practices for environmental conservation',
+              Icons.eco_rounded,
+              '/education',
+              Colors.green,
+            ),
+            const SizedBox(height: 20.0),
+            _buildFeatureCard(
+              context,
+              'Notifications',
+              'Get updates and alerts on reported issues',
+              Icons.notifications_rounded,
+              '/notifications',
+              Colors.blue,
+            ),
+            const SizedBox(height: 20.0),
+            _buildFeatureCard(
+              context,
+              'My Profile',
+              'View and manage your profile settings',
+              Icons.person_rounded,
+              '/profile',
+              Colors.purple,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      color: Colors.blue[100],
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Welcome to AquaWood',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+  Widget _buildFeatureCard(BuildContext context, String title, String subtitle,
+      IconData iconData, String route, Color color) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, route);
+      },
+      child: Card(
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            gradient: LinearGradient(
+              colors: [color.withOpacity(0.8), color.withOpacity(0.6)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-          SizedBox(height: 10),
-          Text(
-            'Explore the world of aquascaping!',
-            style: TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCarouselSlider() {
-    List<String> images = [
-      'assets/image1_aquawood.jpg',
-      'assets/image2_aquawood.jpg',
-      'assets/image3_aquawood.jpg',
-    ];
-
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 200.0,
-        enlargeCenterPage: true,
-        autoPlay: true,
-        aspectRatio: 2.0,
-      ),
-      items: images.map((image) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(10.0), // Added border radius
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                iconData,
+                size: 36.0,
+                color: Colors.white,
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
+              const SizedBox(height: 12.0),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-            );
-          },
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _buildInfoSection() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'About AquaWood',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              const SizedBox(height: 8.0),
+              Text(
+                subtitle,
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          const Text(
-            'AquaWood is your ultimate resource for aquascaping inspiration and knowledge. '
-            'Discover beautiful aquarium setups, learn from experts, and share your passion with the community.',
-            style: TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // Implement action
-            },
-            child: const Text('Explore More'),
-          ),
-        ],
+        ),
       ),
     );
   }
