@@ -55,17 +55,14 @@ class _LoginPageState extends State<LoginPage> {
             fit: BoxFit.cover,
             height: double.infinity,
             width: double.infinity,
-            image:
-                AssetImage('assets/abstract-digital-grid-black-background.jpg'),
+            image: AssetImage('assets/image1.jpg'),
           ),
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.black,
-                  Colors.black.withOpacity(0.8),
-                  Colors.black.withOpacity(0.15),
-                  Colors.black.withOpacity(0.5),
+                  Colors.black.withOpacity(0.7),
+                  Colors.black.withOpacity(0.3),
                 ],
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
@@ -75,100 +72,106 @@ class _LoginPageState extends State<LoginPage> {
           Align(
             alignment: Alignment.center,
             child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AspectRatio(
-                    aspectRatio: 6 / 3,
-                    child: Image.asset('assets/login_screen_tree.png'),
-                  ),
                   const Text(
-                    'Login',
+                    'Eco Guardian',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Protecting our environment for a better future. Join us in our efforts to conserve nature and report environmental issues.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  TextField(
+                    controller: emailController,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Email',
+                      labelStyle: TextStyle(
+                        color: Color(0xff0ACF83),
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xff0ACF83),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xff0ACF83),
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: TextField(
-                      controller: emailController,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
+                  TextField(
+                    controller: passwordController,
+                    textAlign: TextAlign.center,
+                    obscureText: true,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Password',
+                      labelStyle: TextStyle(
                         color: Color(0xff0ACF83),
-                        fontSize: 13,
+                        fontSize: 15,
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                       ),
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 1,
                           color: Color(0xff0ACF83),
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Color(0xff0ACF83),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Color(0xff0ACF83),
-                          ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xff0ACF83),
                         ),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: TextField(
-                      controller: passwordController,
-                      textAlign: TextAlign.center,
-                      obscureText: true,
-                      style: const TextStyle(
-                        color: Color(0xff0ACF83),
-                        fontSize: 13,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        labelStyle: TextStyle(
-                          color: Color(0xff0ACF83),
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Color(0xff0ACF83),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Color(0xff0ACF83),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 10),
                   const Padding(
                     padding: EdgeInsets.only(left: 19, top: 8, right: 19),
                     child: Text(
-                      "Forgot Password",
+                      "Forgot Password?",
                       style: TextStyle(
                         color: Colors.grey,
                       ),
@@ -179,9 +182,18 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: signUserIn,
                     child: Container(
                       height: 50,
-                      width: 350,
-                      decoration: const BoxDecoration(
-                        color: Color(0xff0ACF83),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff0ACF83),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
                       ),
                       child: const Center(
                         child: Text(
@@ -194,10 +206,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   Padding(
-                    padding: const EdgeInsets.only(left: 100.0, top: 30),
+                    padding: const EdgeInsets.only(top: 20),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
                           "Don't have an account?",
@@ -212,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: const Text(
                             "  Sign up",
                             style: TextStyle(
-                              color: Colors.green,
+                              color: Color(0xff0ACF83),
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
