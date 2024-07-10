@@ -13,21 +13,37 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'ECO GUARDIAN',
-          style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Column(
+          children: [
+            Text(
+              'ECO GUARDIAN',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.0,
+              ),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              'Save the Environment, Save Our Future',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14.0,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
         ),
         centerTitle: true,
+        elevation: 0, // Remove elevation for a cleaner look
+        backgroundColor: Colors.green, // Customize app bar background color
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
             _buildCarouselSlider(),
-            const SizedBox(height: 16.0),
+            SizedBox(height: 16.0),
             _buildCard(
               icon: Icons.report,
               title: 'Report Environmental Issues',

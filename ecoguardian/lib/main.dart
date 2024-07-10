@@ -7,13 +7,14 @@ import 'pages/learn_page.dart';
 import 'pages/notifications_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/emergency_contacts_page.dart';
+import 'pages/settings_page.dart'; // Import SettingsPage.dart
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,8 @@ class MyApp extends StatelessWidget {
         '/notifications': (context) => const NotificationsPage(),
         '/profile': (context) => const ProfilePage(),
         '/emergency_contacts': (context) => const EmergencyContactsPage(),
+        '/settings': (context) =>
+            const SettingsPage(), // Add SettingsPage route
       },
     );
   }
