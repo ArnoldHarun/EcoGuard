@@ -1,29 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  SignupPage({super.key});
+  void signUp(String email, String password) async {
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // Navigate to success page or home page after successful signup
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      // Handle errors here (e.g., show error message to user)
+      print('Error signing up: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error signing up: $e'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/image6.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          // Semi-transparent overlay
-          Container(
-            color: Colors.black.withOpacity(0.5),
-          ),
-          // Form content
+          // Background image and overlay code...
+
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Center(
@@ -39,141 +56,42 @@ class SignupPage extends StatelessWidget {
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
-                          const Text(
-                            'Signup',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16.0),
                           TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Full Name',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your full name';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16.0),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Contact',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your contact number';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16.0),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Email',
-                              border: OutlineInputBorder(),
-                            ),
+                            controller: emailController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
-                              } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid email address';
                               }
                               return null;
                             },
-                          ),
-                          const SizedBox(height: 16.0),
-                          TextFormField(
                             decoration: const InputDecoration(
-                              labelText: 'Address',
-                              border: OutlineInputBorder(),
+                              labelText: 'Email',
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your address';
-                              }
-                              return null;
-                            },
                           ),
-                          const SizedBox(height: 16.0),
                           TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Password',
-                              border: OutlineInputBorder(),
-                            ),
+                            controller: passwordController,
                             obscureText: true,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your password';
-                              } else if (value.length < 6) {
-                                return 'Password must be at least 6 characters long';
                               }
                               return null;
                             },
-                          ),
-                          const SizedBox(height: 16.0),
-                          TextFormField(
                             decoration: const InputDecoration(
-                              labelText: 'Confirm Password',
-                              border: OutlineInputBorder(),
+                              labelText: 'Password',
                             ),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please confirm your password';
-                              }
-                              return null;
-                            },
                           ),
-                          const SizedBox(height: 32.0),
+                          const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // Perform registration logic here
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Processing Data')),
+                                signUp(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim(),
                                 );
                               }
                             },
-                            style: ElevatedButton.styleFrom(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16.0),
-                              textStyle: const TextStyle(fontSize: 18),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: const Text('Register'),
-                          ),
-                          const SizedBox(height: 16.0),
-                          // Add login option
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Already have an account?',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/login');
-                                },
-                                child: const Text(
-                                  'Login',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            child: const Text('Sign Up'),
                           ),
                         ],
                       ),
