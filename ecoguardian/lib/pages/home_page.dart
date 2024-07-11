@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'emergency_contacts_page.dart';
-import 'report_issue_page.dart';
-import 'learn_page.dart';
-import 'notifications_page.dart';
-import 'profile_page.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
+        title: const Column(
           children: [
             Text(
               'ECO GUARDIAN',
@@ -41,9 +36,9 @@ class HomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             _buildCarouselSlider(),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             _buildCard(
               icon: Icons.report,
               title: 'Report Environmental Issues',

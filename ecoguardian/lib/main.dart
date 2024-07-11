@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignupPage(),
+        '/signup': (context) => SignupPage(), // Remove const here
         '/home': (context) => const HomePage(),
         '/report': (context) => const ReportIssuePage(),
         '/learn': (context) => const LearnPage(),
