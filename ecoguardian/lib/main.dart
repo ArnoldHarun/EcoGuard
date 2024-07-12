@@ -24,12 +24,10 @@ void main() async {
       measurementId: "G-MEASUREMENT_ID",
     ),
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,16 +40,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
-        '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignupPage(), // Remove const here
-        '/home': (context) => const HomePage(),
-        '/report': (context) => const ReportIssuePage(),
-        '/learn': (context) => const LearnPage(),
-        '/notifications': (context) => const NotificationsPage(),
-        '/profile': (context) => const ProfilePage(),
-        '/emergency_contacts': (context) => const EmergencyContactsPage(),
-        '/settings': (context) =>
-            const SettingsPage(), // Add SettingsPage route
+        '/login': (context) => LoginPage(),
+        '/signup': (context) => SignupPage(),
+        '/home': (context) => HomePage(),
+        '/report': (context) => ReportIssuePage(),
+        '/learn': (context) => LearnPage(),
+        '/notifications': (context) => NotificationsPage(),
+        '/profile': (context) => ProfilePage(),
+        '/emergency_contacts': (context) => EmergencyContactsPage(),
+        '/settings': (context) => SettingsPage(),
       },
     );
   }
