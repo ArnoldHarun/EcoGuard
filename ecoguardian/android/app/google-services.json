@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "917905910857",
+    "project_id": "eco-guardian-bd74f",
+    "storage_bucket": "eco-guardian-bd74f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917905910857:android:0493bc9f3e302c6d912398",
+        "android_client_info": {
+          "package_name": "com.company.ecoguardian"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu3hXDaqQ58VvHNQ1On5wxcgaU0CIXCo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,36 +11,47 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance; // Firebase Auth instance
 
-  void signUserIn() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-
+  void signIn(String email, String password) async {
     try {
-      // Simulating a sign-in process
-      await Future.delayed(const Duration(seconds: 2));
-      Navigator.pop(context); // Close the loading dialog
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // Navigate to home page after successful login
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
-      Navigator.pop(context);
-      // Handle errors
+      // Handle errors here (e.g., show error message to user)
+      print('Error signing in: $e');
       showDialog(
         context: context,
         builder: (context) {
-          return const AlertDialog(
+          return AlertDialog(
             backgroundColor: Colors.deepPurple,
-            title: Center(
+            title: const Center(
               child: Text(
                 'Login Failed',
                 style: TextStyle(color: Colors.white),
               ),
             ),
+            content: const Center(
+              child: Text(
+                'Invalid credentials. Please try again.',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           );
         },
       );
@@ -51,11 +63,12 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          const Image(
+          // Background image
+          Image.asset(
+            'assets/image1.jpg', // Replace with your image path
             fit: BoxFit.cover,
             height: double.infinity,
             width: double.infinity,
-            image: AssetImage('assets/image1.jpg'),
           ),
           Container(
             decoration: BoxDecoration(
@@ -179,7 +192,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: signUserIn,
+                    onTap: () {
+                      signIn(
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
+                      );
+                    },
                     child: Container(
                       height: 50,
                       width: double.infinity,
