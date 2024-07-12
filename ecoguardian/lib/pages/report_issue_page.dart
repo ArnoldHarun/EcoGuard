@@ -4,7 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ReportIssuePage extends StatefulWidget {
   @override
@@ -12,32 +13,36 @@ class ReportIssuePage extends StatefulWidget {
 }
 
 class _ReportIssuePageState extends State<ReportIssuePage> {
-  File? _image;
+  Uint8List? _imageBytes;
   final picker = ImagePicker();
   TextEditingController _descriptionController = TextEditingController();
-  LatLng? _currentPosition;
+  LatLng? _selectedPosition;
   GoogleMapController? _mapController;
   Location _location = Location();
 
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
-  }
-
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
+    if (pickedFile != null) {
+      if (kIsWeb) {
+        // For web, read as bytes
+        final bytes = await pickedFile.readAsBytes();
+        setState(() {
+          _imageBytes = bytes;
+        });
       } else {
-        print('No image selected.');
+        // For mobile, read as file
+        final bytes = await pickedFile.readAsBytes();
+        setState(() {
+          _imageBytes = bytes;
+        });
       }
-    });
+    } else {
+      print('No image selected.');
+    }
   }
 
   Future<void> _uploadImage() async {
-    if (_image == null) return;
+    if (_imageBytes == null) return;
 
     try {
       String fileName =
@@ -45,9 +50,9 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
       Reference storageReference =
           FirebaseStorage.instance.ref().child(fileName);
 
-      UploadTask uploadTask = storageReference.putFile(_image!);
-      TaskSnapshot snapshot = await uploadTask;
+      UploadTask uploadTask = storageReference.putData(_imageBytes!);
 
+      TaskSnapshot snapshot = await uploadTask;
       final String downloadUrl = await snapshot.ref.getDownloadURL();
       _saveReport(downloadUrl);
     } catch (e) {
@@ -61,7 +66,7 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
         'description': _descriptionController.text,
         'image_url': imageUrl,
         'location':
-            GeoPoint(_currentPosition!.latitude, _currentPosition!.longitude),
+            GeoPoint(_selectedPosition!.latitude, _selectedPosition!.longitude),
         'timestamp': FieldValue.serverTimestamp(),
       });
       print('Report saved successfully.');
@@ -75,28 +80,12 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    _location.onLocationChanged.listen((l) {
-      setState(() {
-        _currentPosition = LatLng(l.latitude!, l.longitude!);
-      });
-      _mapController?.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
-        ),
-      );
-    });
   }
 
-  Future<void> _getCurrentLocation() async {
-    var location = await _location.getLocation();
+  void _onMapTapped(LatLng position) {
     setState(() {
-      _currentPosition = LatLng(location.latitude!, location.longitude!);
+      _selectedPosition = position;
     });
-    _mapController?.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(target: _currentPosition!, zoom: 15),
-      ),
-    );
   }
 
   @override
@@ -109,7 +98,11 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _image == null ? Text('No image selected.') : Image.file(_image!),
+            _imageBytes == null
+                ? Text('No image selected.')
+                : kIsWeb
+                    ? Image.memory(_imageBytes!)
+                    : Image.memory(_imageBytes!),
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: _pickImage,
@@ -128,17 +121,16 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
             ),
             SizedBox(
               height: 300.0,
-              child: _currentPosition == null
-                  ? Center(child: CircularProgressIndicator())
-                  : GoogleMap(
-                      onMapCreated: _onMapCreated,
-                      initialCameraPosition: CameraPosition(
-                        target: _currentPosition!,
-                        zoom: 15,
-                      ),
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                    ),
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                onTap: _onMapTapped,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(0, 0),
+                  zoom: 2,
+                ),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+              ),
             ),
             SizedBox(height: 10),
             ElevatedButton(
