@@ -1,8 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String _city = 'Kampala'; // Default city
+  String _weatherDescription = '';
+  double? _temperature;
+  double? _humidity;
+  double? _windSpeed;
+  double? _pressure;
+  final TextEditingController _cityController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchWeather(); // Fetch weather data on init
+  }
+
+  Future<void> _fetchWeather() async {
+    final apiKey =
+        '855a33b3c795a0040d4f25656aaf4bd8'; // Replace with your OpenWeatherMap API key
+    final url =
+        'https://api.openweathermap.org/data/2.5/weather?q=$_city&units=metric&appid=$apiKey';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          _weatherDescription = data['weather'][0]['description'];
+          _temperature = data['main']['temp'];
+          _humidity = data['main']['humidity'].toDouble();
+          _windSpeed = data['wind']['speed'].toDouble();
+          _pressure = data['main']['pressure'].toDouble();
+        });
+      } else {
+        print(
+            'Failed to load weather data. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } catch (e) {
+      print('Error fetching weather data: $e');
+    }
+  }
+
+  void _updateCity() {
+    setState(() {
+      _city = _cityController.text; // Update city from text field
+      _fetchWeather(); // Fetch weather for the new city
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +85,8 @@ class HomePage extends StatelessWidget {
           ],
         ),
         centerTitle: true,
-        elevation: 0, // Remove elevation for a cleaner look
-        backgroundColor: Colors.green, // Customize app bar background color
+        elevation: 0,
+        backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -39,6 +94,54 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 16.0),
             _buildCarouselSlider(),
             const SizedBox(height: 16.0),
+            // Input field for city
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextField(
+                controller: _cityController,
+                decoration: InputDecoration(
+                  labelText: 'Enter city name',
+                  border: OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: _updateCity,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            // Display weather information
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Weather in $_city',
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                  if (_temperature != null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${_temperature!.toStringAsFixed(1)}°C, $_weatherDescription',
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
+                        const SizedBox(height: 10.0),
+                        _buildWeatherDetailCard(
+                            'Humidity', '$_humidity%', Icons.cloud),
+                        _buildWeatherDetailCard(
+                            'Wind Speed', '$_windSpeed m/s', Icons.air),
+                        _buildWeatherDetailCard(
+                            'Pressure', '$_pressure hPa', Icons.compress),
+                      ],
+                    ),
+                  if (_temperature == null)
+                    const CircularProgressIndicator(), // Show loading indicator while fetching
+                ],
+              ),
+            ),
             _buildCard(
               icon: Icons.report,
               title: 'Report Environmental Issues',
@@ -108,6 +211,40 @@ class HomePage extends StatelessWidget {
             label: 'Settings',
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildWeatherDetailCard(String title, String value, IconData icon) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 4.0,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Icon(icon, size: 40.0, color: Colors.green),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(value, style: const TextStyle(fontSize: 14.0)),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

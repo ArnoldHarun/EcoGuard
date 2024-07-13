@@ -25,6 +25,10 @@ dependencies:
   image_picker: ^0.8.5+3
 
   location: ^4.4.0
+  http: ^0.13.3
+  url_launcher: ^6.0.20
+  flutter_staggered_animations: ^1.0.0
+  animated_text_kit: ^4.2.1
 
 
 dev_dependencies:
@@ -42,3 +46,10 @@ flutter:
     - assets/image5.jpg
     - assets/image6.jpg
     - assets/image7.jpg
+    - assets/image8.jpg
+    - assets/image9.jpg
+    - assets/image10.jpg
+    - assets/image11.jpg
+    - assets/image12.jpg
+    - assets/image13.jpg
+
