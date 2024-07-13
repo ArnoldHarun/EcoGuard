@@ -11,6 +11,8 @@ import 'pages/profile_page.dart';
 import 'pages/emergency_contacts_page.dart';
 import 'pages/settings_page.dart';
 
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
