@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchWeather() async {
-    final apiKey =
+    const apiKey =
         '855a33b3c795a0040d4f25656aaf4bd8'; // Replace with your OpenWeatherMap API key
     final url =
         'https://api.openweathermap.org/data/2.5/weather?q=$_city&units=metric&appid=$apiKey';
@@ -101,9 +101,9 @@ class _HomePageState extends State<HomePage> {
                 controller: _cityController,
                 decoration: InputDecoration(
                   labelText: 'Enter city name',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.search),
+                    icon: const Icon(Icons.search),
                     onPressed: _updateCity,
                   ),
                 ),

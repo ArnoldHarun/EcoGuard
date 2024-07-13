@@ -8,6 +8,8 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ReportIssuePage extends StatefulWidget {
+  const ReportIssuePage({super.key});
+
   @override
   _ReportIssuePageState createState() => _ReportIssuePageState();
 }
@@ -15,10 +17,10 @@ class ReportIssuePage extends StatefulWidget {
 class _ReportIssuePageState extends State<ReportIssuePage> {
   Uint8List? _imageBytes;
   final picker = ImagePicker();
-  TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   LatLng? _selectedPosition;
   GoogleMapController? _mapController;
-  Location _location = Location();
+  final Location _location = Location();
 
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -71,7 +73,7 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
       });
       print('Report saved successfully.');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Report submitted successfully')),
+        const SnackBar(content: Text('Report submitted successfully')),
       );
     } catch (e) {
       print('Error saving report: $e');
@@ -92,27 +94,27 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Report Issue'),
+        title: const Text('Report Issue'),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _imageBytes == null
-                ? Text('No image selected.')
+                ? const Text('No image selected.')
                 : kIsWeb
                     ? Image.memory(_imageBytes!)
                     : Image.memory(_imageBytes!),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _pickImage,
-              child: Text('Pick Image'),
+              child: const Text('Pick Image'),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
                 controller: _descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Description',
                   border: OutlineInputBorder(),
                 ),
@@ -124,7 +126,7 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
               child: GoogleMap(
                 onMapCreated: _onMapCreated,
                 onTap: _onMapTapped,
-                initialCameraPosition: CameraPosition(
+                initialCameraPosition: const CameraPosition(
                   target: LatLng(0, 0),
                   zoom: 2,
                 ),
@@ -132,10 +134,10 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
                 myLocationButtonEnabled: true,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _uploadImage,
-              child: Text('Submit Report'),
+              child: const Text('Submit Report'),
             ),
           ],
         ),

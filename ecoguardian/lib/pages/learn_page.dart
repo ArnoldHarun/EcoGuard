@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class LearnPage extends StatelessWidget {
+class LearnPage extends StatefulWidget {
   const LearnPage({super.key});
+
+  @override
+  _LearnPageState createState() => _LearnPageState();
+}
+
+class _LearnPageState extends State<LearnPage> {
+  YoutubePlayerController? _controller;
+
+  void _initializePlayer(String videoUrl) {
+    final videoId = YoutubePlayer.convertUrlToId(videoUrl);
+    if (videoId != null) {
+      _controller = YoutubePlayerController(
+        initialVideoId: videoId,
+        flags: const YoutubePlayerFlags(
+          autoPlay: true,
+          mute: false,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,16 +103,13 @@ class LearnPage extends StatelessWidget {
       _buildInfoCard(
         'Reduce, Reuse, Recycle',
         'Minimize waste by reducing what you use, reusing items, and recycling materials whenever possible.',
-        'assets/image8.jpg', // Add your image path
+        'assets/image8.jpg',
       ),
-      // Add more info cards here...
-      // Example:
       _buildInfoCard(
         'Plant Trees',
         'Trees absorb carbon dioxide and provide oxygen. Participate in tree planting activities or start your own tree planting project.',
-        'assets/image9.jpg', // Add your image path
+        'assets/image9.jpg',
       ),
-      // Add the rest...
     ];
   }
 
@@ -95,9 +118,8 @@ class LearnPage extends StatelessWidget {
       _buildInfoCard(
         'Support Conservation Organizations',
         'Donate to or volunteer with organizations working on conservation projects in Uganda.',
-        'assets/image12.jpg', // Add your image path
+        'assets/image12.jpg',
       ),
-      // Add more Uganda-specific info cards here...
     ];
   }
 
@@ -107,7 +129,6 @@ class LearnPage extends StatelessWidget {
         'Tree Planting in Uganda',
         'https://youtu.be/0mPurj3WS6M?si=bSqq0jT25UNPegnp',
       ),
-      // Add more video cards here...
     ];
   }
 
@@ -126,7 +147,7 @@ class LearnPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(10.0)),
                 child: Image.asset(imagePath, fit: BoxFit.cover),
               ),
               Padding(
@@ -184,19 +205,21 @@ class LearnPage extends StatelessWidget {
                   aspectRatio: 16 / 9,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
-                      color: Colors.black,
-                      child: Center(
-                        child: IconButton(
-                          icon: const Icon(Icons.play_circle_fill,
-                              size: 48.0, color: Colors.white),
-                          onPressed: () {
-                            _launchURL(videoUrl);
-                          },
-                        ),
-                      ),
-                    ),
+                    child: _controller != null
+                        ? YoutubePlayer(
+                            controller: _controller!,
+                            showVideoProgressIndicator: true,
+                          )
+                        : Container(color: Colors.black), // Placeholder
                   ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.play_circle_fill,
+                      size: 48.0, color: Colors.green),
+                  onPressed: () {
+                    _initializePlayer(videoUrl);
+                    setState(() {}); // Refresh to show video player
+                  },
                 ),
               ],
             ),
@@ -204,13 +227,5 @@ class LearnPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _launchURL(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }
