@@ -23,15 +23,12 @@ dependencies:
   # Other dependencies
   google_maps_flutter: ^2.2.2
   image_picker: ^0.8.5+3
-
   location: ^4.4.0
   http: ^0.13.3
   url_launcher: ^6.0.20
   flutter_staggered_animations: ^1.0.0
   animated_text_kit: ^4.2.1
   youtube_player_iframe: ^2.3.0
-
-
 
 dev_dependencies:
   flutter_test:
@@ -54,4 +51,3 @@ flutter:
     - assets/image11.jpg
     - assets/image12.jpg
     - assets/image13.jpg
-

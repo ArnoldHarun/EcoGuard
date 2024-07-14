@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'video_player_page.dart'; // Import the VideoPlayerPage
 
 class LearnPage extends StatefulWidget {
   const LearnPage({super.key});
@@ -10,36 +10,21 @@ class LearnPage extends StatefulWidget {
 }
 
 class _LearnPageState extends State<LearnPage> {
-  late YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: '',
-      params: const YoutubePlayerParams(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
-  }
-
-  void _initializePlayer(String videoUrl) {
-    final videoId = YoutubePlayerController.convertUrlToId(videoUrl);
-    if (videoId != null) {
-      setState(() {
-        _controller.load(videoId);
-      });
-    } else {
-      print('Invalid video URL: $videoUrl');
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.close();
-    super.dispose();
-  }
+  final List<Map<String, String>> videos = [
+    {
+      'title': 'Conservation Basics',
+      'url': 'https://youtu.be/mz4zUTOuZyw?si=v8ok_cWhIpWJLDPJ',
+    },
+    {
+      'title': 'The Importance of Biodiversity',
+      'url': 'https://youtu.be/some_other_video_url',
+    },
+    {
+      'title': 'Sustainable Practices',
+      'url': 'https://youtu.be/yet_another_video_url',
+    },
+    // Add more videos as needed
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -91,48 +76,9 @@ class _LearnPageState extends State<LearnPage> {
                   'Educational Videos',
                   'Watch videos to learn more about conservation efforts.',
                   'assets/image8.jpg',
-                  () => _initializePlayer('https://youtu.be/HxsbXVlTAmo'),
+                  _navigateToVideoList,
                 ),
-                _buildInfoCard(
-                  'Combat Soil Erosion',
-                  'Learn about techniques to prevent soil erosion, such as planting cover crops.',
-                  'assets/image2.jpg',
-                  () => _showDetails(
-                    'Combat Soil Erosion',
-                    'Cover crops can help improve soil health and prevent erosion.',
-                    'assets/image5.jpg',
-                  ),
-                ),
-                _buildInfoCard(
-                  'Avoid Plastic Use',
-                  'Reduce plastic usage by opting for reusable bags and containers.',
-                  'assets/image2.jpg',
-                  () => _showDetails(
-                    'Avoid Plastic Use',
-                    'Using reusable products can significantly reduce waste and protect wildlife.',
-                    'assets/image3.jpg',
-                  ),
-                ),
-                _buildInfoCard(
-                  'Educate Others',
-                  'Share information about conservation with friends and family.',
-                  'assets/image12.jpg',
-                  () => _showDetails(
-                    'Educate Others',
-                    'Spreading awareness is crucial for community engagement in conservation.',
-                    'assets/image9.jpg',
-                  ),
-                ),
-                _buildInfoCard(
-                  'Reduce Carbon Footprint',
-                  'Use public transport, bike, or walk to reduce greenhouse gas emissions.',
-                  'assets/image1.jpg',
-                  () => _showDetails(
-                    'Reduce Carbon Footprint',
-                    'Small changes in transportation habits can lead to significant reductions in carbon emissions.',
-                    'assets/image3.jpg',
-                  ),
-                ),
+                // Add more cards as needed
               ],
             ),
           ),
@@ -148,7 +94,7 @@ class _LearnPageState extends State<LearnPage> {
       child: AnimationConfiguration.staggeredGrid(
         position: 0,
         duration: const Duration(milliseconds: 375),
-        columnCount: 2, // Add this line
+        columnCount: 2,
         child: ScaleAnimation(
           child: Card(
             margin: const EdgeInsets.all(8.0),
@@ -187,6 +133,14 @@ class _LearnPageState extends State<LearnPage> {
     );
   }
 
+  void _navigateToVideoList() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => VideoListPage(videos: videos),
+      ),
+    );
+  }
+
   void _showDetails(String title, String description, String imagePath) {
     showDialog(
       context: context,
@@ -194,7 +148,7 @@ class _LearnPageState extends State<LearnPage> {
         title: Text(title),
         content: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Important for preventing overflow
+            mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(imagePath),
               const SizedBox(height: 10),
@@ -208,6 +162,35 @@ class _LearnPageState extends State<LearnPage> {
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class VideoListPage extends StatelessWidget {
+  final List<Map<String, String>> videos;
+
+  const VideoListPage({Key? key, required this.videos}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Educational Videos'),
+      ),
+      body: ListView.builder(
+        itemCount: videos.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(videos[index]['title']!),
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                '/video',
+                arguments: videos[index]['url'],
+              );
+            },
+          );
+        },
       ),
     );
   }

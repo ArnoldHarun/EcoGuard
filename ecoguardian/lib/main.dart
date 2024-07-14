@@ -10,6 +10,8 @@ import 'pages/notifications_page.dart';
 import 'pages/profile_page.dart';
 import 'pages/emergency_contacts_page.dart';
 import 'pages/settings_page.dart';
+import 'pages/video_player_page.dart'; // Import the VideoPlayerPage
+import 'pages/donation_page.dart'; // Import the DonationPage
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +53,10 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfilePage(),
         '/emergency_contacts': (context) => const EmergencyContactsPage(),
         '/settings': (context) => const SettingsPage(),
+        '/video': (context) =>
+            VideoPlayerPage(videoUrl: ''), // Add route for VideoPlayerPage
+        '/donation': (context) =>
+            const DonationPage(), // Add route for DonationPage
       },
     );
   }
