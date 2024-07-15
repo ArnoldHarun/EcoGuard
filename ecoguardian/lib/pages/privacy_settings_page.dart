@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'account_settings_page.dart';
-import 'notification_settings_page.dart';
-import 'privacy_settings_page.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+class PrivacySettingsPage extends StatelessWidget {
+  const PrivacySettingsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('Privacy Settings'),
         backgroundColor: Colors.green,
       ),
       body: Padding(
@@ -19,38 +16,18 @@ class SettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildSettingTile(
-              title: 'Notification Settings',
-              icon: Icons.notifications,
+              title: 'Data Privacy',
+              icon: Icons.security,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotificationSettingsPage()),
-                );
+                _showDataPrivacy(context);
               },
             ),
             const SizedBox(height: 16.0),
             _buildSettingTile(
-              title: 'Account Settings',
-              icon: Icons.account_circle,
+              title: 'Manage Blocked Users',
+              icon: Icons.block,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AccountSettingsPage()),
-                );
-              },
-            ),
-            const SizedBox(height: 16.0),
-            _buildSettingTile(
-              title: 'Privacy Settings',
-              icon: Icons.lock,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PrivacySettingsPage()),
-                );
+                _showBlockedUsers(context);
               },
             ),
           ],
@@ -97,6 +74,44 @@ class SettingsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showDataPrivacy(BuildContext context) {
+    // Mock data privacy details for demonstration
+    String userDataDetails = '''
+    Data Privacy Details:
+    - Name: John Doe
+    - Email: johndoe@example.com
+    - Address: 123 Main St, Anytown
+    - Phone: +1234567890
+    
+    Your data is securely stored and not shared with anyone.
+    ''';
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Data Privacy Details'),
+          content: Text(userDataDetails),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('CLOSE'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showBlockedUsers(BuildContext context) {
+    // Implement logic to show blocked users page or dialog
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Manage Blocked Users tapped')),
     );
   }
 }
