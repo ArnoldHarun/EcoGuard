@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'video_player_page.dart'; // Import the VideoPlayerPage
+// Import the VideoPlayerPage
 
 class LearnPage extends StatefulWidget {
   const LearnPage({super.key});
@@ -170,7 +170,7 @@ class _LearnPageState extends State<LearnPage> {
 class VideoListPage extends StatelessWidget {
   final List<Map<String, String>> videos;
 
-  const VideoListPage({Key? key, required this.videos}) : super(key: key);
+  const VideoListPage({super.key, required this.videos});
 
   @override
   Widget build(BuildContext context) {

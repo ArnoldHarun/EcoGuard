@@ -25,19 +25,10 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
   Future<void> _pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      if (kIsWeb) {
-        // For web, read as bytes
-        final bytes = await pickedFile.readAsBytes();
-        setState(() {
-          _imageBytes = bytes;
-        });
-      } else {
-        // For mobile, read as file
-        final bytes = await pickedFile.readAsBytes();
-        setState(() {
-          _imageBytes = bytes;
-        });
-      }
+      final bytes = await pickedFile.readAsBytes();
+      setState(() {
+        _imageBytes = bytes;
+      });
     } else {
       print('No image selected.');
     }
@@ -59,6 +50,9 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
       _saveReport(downloadUrl);
     } catch (e) {
       print('Error uploading image: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error uploading image: $e')),
+      );
     }
   }
 
@@ -77,6 +71,9 @@ class _ReportIssuePageState extends State<ReportIssuePage> {
       );
     } catch (e) {
       print('Error saving report: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving report: $e')),
+      );
     }
   }
 

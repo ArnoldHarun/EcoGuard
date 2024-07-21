@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoPlayerPage extends StatefulWidget {
   final String videoUrl;
 
-  const VideoPlayerPage({super.key, required this.videoUrl});
+  const VideoPlayerPage({required this.videoUrl, super.key});
 
   @override
   _VideoPlayerPageState createState() => _VideoPlayerPageState();
 }
 
 class _VideoPlayerPageState extends State<VideoPlayerPage> {
-  late YoutubePlayerController _controller;
+  late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    final videoId = YoutubePlayerController.convertUrlToId(widget.videoUrl);
-    _controller = YoutubePlayerController(
-      initialVideoId: videoId ?? '',
-      params: const YoutubePlayerParams(
-        autoPlay: true,
-        mute: false,
-      ),
-    );
+    _controller = VideoPlayerController.network(widget.videoUrl)
+      ..initialize().then((_) {
+        setState(
+            () {}); // Ensure the first frame is shown after the video is initialized.
+      });
   }
 
   @override
   void dispose() {
-    _controller.close();
     super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -37,10 +34,26 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Video Player'),
-        backgroundColor: Colors.green,
       ),
       body: Center(
-        child: YoutubePlayerIFrame(controller: _controller),
+        child: _controller.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : const CircularProgressIndicator(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
+          });
+        },
+        child: Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        ),
       ),
     );
   }

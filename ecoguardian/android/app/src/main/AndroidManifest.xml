@@ -28,7 +28,7 @@
         <!-- Add the Google Maps API key here -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA6uJhjEmD25oRxWBrYS3i_grxATNqlRt0"/>
+            android:value="AIzaSyDJoCXlM_KmmLtPzoHjYJ5nWHHhReF-KN4"/>
     </application>
 
     <!-- Add the permissions below the <application> tag -->

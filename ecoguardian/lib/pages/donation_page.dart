@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DonationPage extends StatefulWidget {
-  const DonationPage({Key? key}) : super(key: key);
+  const DonationPage({super.key});
 
   @override
   _DonationPageState createState() => _DonationPageState();
@@ -61,13 +61,13 @@ class _DonationPageState extends State<DonationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Thank you for considering a donation!',
                 style: TextStyle(fontSize: 24.0),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 'Your contributions help us protect the environment.',
                 style: TextStyle(fontSize: 18.0),
                 textAlign: TextAlign.center,
@@ -78,17 +78,17 @@ class _DonationPageState extends State<DonationPage> {
                 decoration: InputDecoration(
                   labelText: 'Donation Amount',
                   errorText: _errorMessage,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 40),
               ElevatedButton(
                 onPressed: _handleDonation,
-                child: const Text('Donate Now'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                 ),
+                child: const Text('Donate Now'),
               ),
             ],
           ),

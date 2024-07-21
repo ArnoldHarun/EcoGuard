@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
         '/emergency_contacts': (context) => const EmergencyContactsPage(),
         '/settings': (context) => const SettingsPage(),
         '/video': (context) =>
-            VideoPlayerPage(videoUrl: ''), // Add route for VideoPlayerPage
+            const VideoPlayerPage(videoUrl: ''), // Add route for VideoPlayerPage
         '/donation': (context) =>
             const DonationPage(), // Add route for DonationPage
       },
